@@ -1,0 +1,26 @@
+{
+  "name": "67373-npm-common",
+  "version": "1.0.1",
+  "description": "把一些常用的功能打包成npm包使用",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dzwzqlx/67373-npm-common.git"
+  },
+  "keywords": [
+    "filename",
+    "文件名合法化",
+    "format",
+    "时间格式化",
+    "timezone"
+  ],
+  "author": "带着王总去旅行",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dzwzqlx/67373-npm-common/issues"
+  },
+  "homepage": "https://github.com/dzwzqlx/67373-npm-common#readme",
+  "dependencies": {
+    "sanitize-filename": "^1.6.3"
+  }
+}
