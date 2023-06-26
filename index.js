@@ -15,10 +15,10 @@ exp.goodFilename = function (str) {
   return sanitizeFilename(str);
 };
 /* ✳️ formatTime 返回特定时区的格式时间。*/
-/* ⬅️ 默认：2023年02月06日[周一]16:26:56.918 */
-/* ⬅️ 230206一 formatTime({style: '[YY][MM][DD][xq]'}); */
-/* ⬅️ 230206_163021 formatTime({style: '[YY][MM][DD]_[hh][mm][ss]'}); */
-/* ⬅️ 23-02-06 一 16:23:12 formatTime({style: '[YY]-[MM]-[DD] [xq] [hh]:[mm]:[ss]'}) */
+/*  ← 默认：2023年02月06日[周一]16:26:56.918 */
+/*  ← 230206一 formatTime({style: '[YY][MM][DD][xq]'}); */
+/*  ← 230206_163021 formatTime({style: '[YY][MM][DD]_[hh][mm][ss]'}); */
+/*  ← 23-02-06 一 16:23:12 formatTime({style: '[YY]-[MM]-[DD] [xq] [hh]:[mm]:[ss]'}) */
 exp.formatTime = function (params = {}) {
   let { timeZone = 8,
     dateNum = Date.now(),
@@ -40,4 +40,10 @@ exp.formatTime = function (params = {}) {
   ];
   pair.forEach(item => style = style.replaceAll(item[0], item[1]));
   return style;
+};
+/* ✳️ 等待毫秒 */
+exp.wait = async function (ms = 1000) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => { resolve(ms) }, ms)
+  })
 };
