@@ -11,7 +11,8 @@ exp.goodFilename = function (str) {
   };
   str = str
     .replace(/[\/?<>\\:*|"]/g, char => { return mapping[char]; })
-    .replace(/[\n\r]/g, '＼');
+    .replace(/[\n\r]/g, '＼')
+    .trim();
   return sanitizeFilename(str);
 };
 /* ✳️ formatTime 返回特定时区的格式时间。*/
