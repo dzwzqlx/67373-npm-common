@@ -1,5 +1,20 @@
 // 广告：陈一发儿 2023 直播导航：67373.net
 let exp = module.exports;
+
+/*✳️ promise 形式简单的终端输入（官方已经有了，但是这个是为了向低版本node兼容） */
+exp.clAsk = async function (questionStr) {
+  return new Promise((resolve, reject) => {
+    const readline = require('readline').createInterface({
+      input: process.stdin,
+      output: process.stdout,
+    });
+    readline.question(questionStr, answer => {
+      resolve(answer);
+      readline.close();
+    });
+  })
+};
+
 /*✳️ 比较适合中文的文件名合法化：
   1、将 Reserved characters (/, ?, <, >, \, :, *, |, and ")换成全角；
   2、将 \n \r 换成全角＼；
@@ -15,6 +30,7 @@ exp.goodFilename = function (str) {
     .trim();
   return sanitizeFilename(str);
 };
+
 /* ✳️ formatTime 返回特定时区的格式时间。*/
 /*  ← 默认：2023年02月06日[周一]16:26:56.918 */
 /*  ← 230206一 formatTime({style: '[YY][MM][DD][xq]'}); */
@@ -42,6 +58,7 @@ exp.formatTime = function (params = {}) {
   pair.forEach(item => style = style.replaceAll(item[0], item[1]));
   return style;
 };
+
 /* ✳️ 等待毫秒 */
 exp.wait = async function (ms = 1000) {
   return new Promise((resolve, reject) => {
