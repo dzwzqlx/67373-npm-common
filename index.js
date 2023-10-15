@@ -1,12 +1,46 @@
 // 广告：陈一发儿 2023 直播导航：67373.net
 let exp = module.exports;
+const util = require('util');
+const fs = require('fs');
+
+
+/*✳️✳️✳️✳️✳️✳️✳️✳️
+类似 console.log 的输出格式，参数间空格 */
+exp.log = function () {
+  let ret = [];
+  for (let item of arguments) {
+    if (typeof item === 'string') ret.push(item)
+    else ret.push(util.inspect(item));
+  };
+  return ret.join(' ');
+};
+// for (let item of arguments) {
+//   if (typeof item === 'object') { ret.push(util.inspect(item)); }
+//   else { ret.push(item); }
+// };
+// console.log(...ret);
+
+/*✳️✳️✳️✳️✳️✳️✳️✳️
+类似 console.log 的输出格式，参数间换行 */
+exp.log2 = function () {
+  const options = {
+    breakLength: Infinity,
+    // compact: false
+  };
+  let ret = [];
+  for (let item of arguments) {
+    if (typeof item === 'string') ret.push(item)
+    else ret.push(util.inspect(item, options));
+  };
+  return '\n' + ret.join('\n\n') + '\n';
+};
 
 /*✳️✳️✳️✳️✳️✳️✳️✳️
 json 转为字符串，绕开了 JSON.stringify 循环报错 */
 exp.jsonToStr = function (obj, params = {}) {
   let {
     indentation = 2,
-    ignoreType = ['string']
+    ignoreType = [] // ['string']
   } = params;
   const seen = new WeakSet();
   for (let item of ignoreType) {
@@ -17,41 +51,38 @@ exp.jsonToStr = function (obj, params = {}) {
       if (seen.has(value)) return '[Circular]';
       seen.add(value);
     };
-    if (value === false) {
-      return 'false';
-    } else if (value === null) {
-      return 'null';
-    } else if (value === 0) {
-      return 0;
-    } else if (value === '') {
-      return '';
-    } else if (value === undefined) {
-      return 'undefined';
-    } else if (Number.isNaN(value)) {
-      return 'NaN';
-    } else return value;
+    return value;
   }, indentation);
 };
 
 /*✳️✳️✳️✳️✳️✳️✳️✳️
+生成数组 */
+exp.arrAtoB = function (numA, numB, gap) {
+  gap = gap || 1;
+  let ret = [];
+  for (let i = numA; i <= numB; i += gap) ret.push(i);
+  return ret;
+};
+
+/*✳️✳️✳️✳️✳️✳️✳️✳️
 promise 形式简单的终端输入，可设置倒计时默认答案*/
-exp.clAsk = async function (q, a, t) {
-  t = Number(t);
+exp.clAsk = async function (question, defaultAnswer, timeout) {
+  timeout = Number(timeout);
   return new Promise((resolve, reject) => {
     const readline = require('readline').createInterface({
       input: process.stdin,
       output: process.stdout,
     });
-    readline.question(q, (answer) => {
+    readline.question(question, (answer) => {
       resolve(answer);
       readline.close();
     });
-    if (t != 0) {
+    if (timeout) {
       setTimeout(() => {
         // console.log(a);
-        resolve(a);
+        resolve(defaultAnswer);
         readline.close();
-      }, t);
+      }, timeout);
     };
   })
 };
@@ -126,3 +157,12 @@ exp.wait = async function (ms = 1000) {
     setTimeout(() => { resolve(ms) }, ms)
   })
 };
+
+////////////////////////////////////////////////////////////////////////
+
+/*✳️✳️✳️✳️✳️✳️✳️✳️
+读取 JSON 文件 */
+// exp.fileToJson = function (filePath) {
+//   let jsonObj = fs.readFileSync(filePath, 'utf-8');
+//   return JSON.parse(jsonObj);
+// };
